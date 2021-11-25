@@ -31,6 +31,19 @@ prime (S n) x = prime' n x Z x where
 factorial : GNat -> GNat
 factorial Z     = 1
 factorial (S n) = (S n) * factorial n
+-- 5
+p : GNat -> GNat
+p Z     = 0
+p (S n) = p' n Z ((factorial $ p n) + 1 + 1) where
+  p' _ _  Z           = 0
+  p' n pp (S stopper) = if p n < pp && isPrime pp then pp else p' n (S pp) stopper 
+-- 10.8.3 列
+-- 6
+elem : GNat -> GNat -> GNat
+elem x n = elem' x n Z (x + 1) where
+  elem' _ _ _ Z           = 0
+  elem' x n k (S stopper) = if canDivideByPower x n k && canDivideByPower x n (S k) then k else elem' x n (S k) stopper where
+    canDivideByPower x n k  = canDivide x $ power (prime n x) k
 
 
 

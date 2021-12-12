@@ -9,5 +9,11 @@ module G4LowerFormalPSpring
 GNat : Type
 GNat = Nat
 
+-- 10.6.1 基本記号のゲーデル数
+左かっこ : GNat
+左かっこ = 11
+右かっこ : GNat
+右かっこ = 13
+
 
 

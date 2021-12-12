@@ -64,6 +64,13 @@ comb x y = comb' x y Z (m8 x y + 1) where
       combSub1 m (S stopper) = if m < len x + 1 && 0 < m && elem z m == elem x m then 1 else combSub1 (S m) stopper
       combSub2 _ Z           = 0
       combSub2 n (S stopper) = if n < len y + 1 && 0 < n && elem z (len x + n) == elem y n then 1 else combSub2 (S n) stopper
+-- 9
+seq : GNat -> GNat
+seq = power 2 
+-- 10
+paren : GNat -> GNat
+paren x = seq 左かっこ * x * seq 右かっこ
+-- 10.8.4 変数・記号・論理式
 
 
 

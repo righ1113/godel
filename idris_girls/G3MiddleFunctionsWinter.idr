@@ -51,15 +51,19 @@ len x = len' x Z (x + 1) where
   len' x k (S stopper) = if 0 < prime k x && 0 == prime (k + 1) x then k else len' x (S k) stopper
 -- 8
 comb : GNat -> GNat -> GNat
-comb x y = comb' x y Z Z (m8 x y + 1) where
+comb x y = comb' x y Z (m8 x y + 1) where
   m8 : GNat -> GNat -> GNat
   m8 x y = power (pri (len x + len y)) (plus x y)
-  comb' : GNat -> GNat -> GNat -> GNat -> GNat -> GNat
-  comb' _ _ _ _ Z           = 0
-  comb' x y z m (S stopper) = if m < len x + 1 && 0 < m && elem z m == elem x m then comb'' x y z Z (S stopper) else comb' x y (S z) (S m) stopper where
-    comb'' : GNat -> GNat -> GNat -> GNat -> GNat -> GNat
-    comb'' _ _ _ _ Z           = 0
-    comb'' x y z n (S stopper) = if n < len y + 1 && 0 < n && elem z (len x + n) == elem y n then z else comb'' x y (S z) (S n) stopper
+  comb' : GNat -> GNat -> GNat -> GNat -> GNat
+  comb' _ _ _ Z           = 0
+  comb' x y z (S stopper) =
+    if combSub1 Z (len x + 1) /= 0 then 
+      if combSub2 Z (len y + 1) /= 0 then z else comb' x y (S z) stopper
+    else comb' x y (S z) stopper where
+      combSub1 _ Z           = 0
+      combSub1 m (S stopper) = if m < len x + 1 && 0 < m && elem z m == elem x m then 1 else combSub1 (S m) stopper
+      combSub2 _ Z           = 0
+      combSub2 n (S stopper) = if n < len y + 1 && 0 < n && elem z (len x + n) == elem y n then 1 else combSub2 (S n) stopper
 
 
 

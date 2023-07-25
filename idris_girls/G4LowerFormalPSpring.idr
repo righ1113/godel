@@ -15,5 +15,9 @@ GNat = Nat
 右かっこ : GNat
 右かっこ = 13
 
+namespace l
+  ｘ１ : Nat
+  ｘ１ = 17
+
 
 

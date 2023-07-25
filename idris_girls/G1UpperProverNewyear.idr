@@ -5,62 +5,37 @@ module G1UpperProverNewyear
 
 import G4LowerFormalPSpring
 import G3MiddleFunctionsWinter
-import G2Postulate
 
 %default total
 
 
-gx1 : GNat
-gx1 = 17
+-- 46  p が見えるようにしてある
+data IsProvable : Bool -> Nat -> Nat -> Type where
+  Yes : (p ** True  = proves p x) -> IsProvable True  p x
+  No  : (p ** False = proves p x) -> IsProvable False p x
 
--- 46
-data IsProvable : GNat -> Type where
-  Yes : (p ** True = proves p x) -> IsProvable x
+namespace C
+  contradiction : Type
+  contradiction = Type --「形式的体系P は矛盾している」
+  ωcontradiction : Type
+  ωcontradiction = Type --「形式的体系P はω矛盾している」
+postulate d4d5tod6 : (m : Nat) -> IsProvable True m (not (r m)) -> IsProvable True s (r s) -> C.contradiction
+postulate a5       : (m : Nat) -> True = proves s (forall l.ｘ１ (r l.ｘ１)) -> IsProvable True m (not (r m))
+postulate d1tod5   : IsProvable True s (forall l.ｘ１ (r l.ｘ１)) -> IsProvable True s (r s)
+--
+postulate e3e4toe5 : IsProvable True t (r t) -> IsProvable True t (not (forall l.ｘ１ (r l.ｘ１))) -> C.ωcontradiction
+postulate b5       : (m : Nat) -> False = proves m (forall l.ｘ１ (r l.ｘ１)) -> IsProvable True m (r m)
 
-postulate p315 : (c, d : GNat) -> True = proves c (forall d (r d)) -> IsProvable (r c)
+-- answer1Plum : 無矛盾なら g を証明できない
+answer1Plum : Not C.contradiction -> Not (IsProvable True s (forall l.ｘ１ (r l.ｘ１)))
+answer1Plum nCon d1 with (d1)
+  | (Yes (s ** d2)) = nCon (d4d5tod6 s (a5 s d2) (d1tod5 d1))
 
-||| Double negation elimination
---DNE : Type -> Type
---DNE p = Not $ Not p -> p
--- 二重否定除去
-postulate dne : ((a -> Void) -> Void) -> a 
-dne2 : a -> ((a -> Void) -> Void) 
-dne2 x f = f x
-
-||| The converse of contraposition: (p -> q) -> Not q -> Not p
-Transposition : Type -> Type -> Type
-Transposition p q = (Not q -> Not p) -> p -> q
-
--- E1
-fuga2 : Transposition ((Not . IsProvable) 17) ((t:GNat) -> False = proves t 17)
-fuga2 prf p = let ans1 = flip prf p in let ans2 = dne ans1 in ans2
-fuga4 : (((t : Nat) -> False = proves t 17) -> Void) -> IsProvable 17
-fuga3 : (((t : Nat) -> False = proves t 17) -> Void) -> (IsProvable 17 -> Void) -> Void
-fuga3 = dne2 . fuga4
-fuga5 : (IsProvable 17 -> Void) -> (t : Nat) -> False = proves t 17
-fuga5 = fuga2 fuga3
-
-
-
-hoge : IsProvable (forall 17 (r 17)) -> GNat
-hoge (Yes dep) -- = ?rhs1
-  = let s = fst dep in let prf = snd dep in
-    let d5 = p315 s gx1 prf in ?rhs1
-
-
-
-namespace a
-  -- 46_2
-  data IsProvable2 : Bool -> GNat -> Type where
-    Yes : (p ** True = proves p x) -> IsProvable2 True x
-    No : ((t : GNat) -> False = proves t x) -> IsProvable2 False x
-
-  huga : IsProvable2 True (forall 17 (r 17)) -> GNat
-  huga (Yes dep) = 3
-
-
-
-
+-- answer2Peach : ω無矛盾なら not g を証明できない    Not IsProvable True = IsProvable False を使用
+answer2Peach : IsProvable False t (forall l.ｘ１ (r l.ｘ１)) ->
+  Not C.ωcontradiction -> Not (IsProvable True t (not (forall l.ｘ１ (r l.ｘ１))))
+answer2Peach d7 nOmega e4 with (d7)
+  | (No (t ** e1)) = nOmega (e3e4toe5 (b5 t e1) e4)
 
 
 

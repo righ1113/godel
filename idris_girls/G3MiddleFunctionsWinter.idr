@@ -72,5 +72,14 @@ paren : GNat -> GNat
 paren x = seq 左かっこ * x * seq 右かっこ
 -- 10.8.4 変数・記号・論理式
 
+-- 13
+postulate not : Nat -> Nat
+-- 15
+postulate forall : Nat -> Nat -> Nat
+-- 45
+postulate proves : Nat -> Nat -> Bool
+
+postulate r : Nat -> Nat
+
 
 

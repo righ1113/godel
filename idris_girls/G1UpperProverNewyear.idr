@@ -14,6 +14,8 @@ data IsProvable : Bool -> Nat -> Nat -> Type where
   Yes : (p ** True  = proves p x) -> IsProvable True  p x
   No  : (p ** False = proves p x) -> IsProvable False p x
 
+postulate r : GNat -> GNat
+
 namespace C
   contradiction : Type
   contradiction = Type --「形式的体系P は矛盾している」
@@ -26,7 +28,7 @@ postulate d1tod5   : IsProvable True s (forall l.ｘ１ (r l.ｘ１)) -> IsProva
 postulate e3e4toe5 : IsProvable True t (r t) -> IsProvable True t (not (forall l.ｘ１ (r l.ｘ１))) -> C.ωcontradiction
 postulate b5       : (m : Nat) -> False = proves m (forall l.ｘ１ (r l.ｘ１)) -> IsProvable True m (r m)
 
--- answer1Plum : 無矛盾なら g を証明できない
+-- answer1Plum : 無矛盾なら g を証明できない    g = forall l.ｘ１ (r l.ｘ１)
 answer1Plum : Not C.contradiction -> Not (IsProvable True s (forall l.ｘ１ (r l.ｘ１)))
 answer1Plum nCon d1 with (d1)
   | (Yes (s ** d2)) = nCon (d4d5tod6 s (a5 s d2) (d1tod5 d1))

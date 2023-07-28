@@ -71,6 +71,12 @@ seq = power 2
 paren : Nat -> Nat
 paren x = seq 左かっこ * x * seq 右かっこ
 -- 10.8.4 変数・記号・論理式
+-- 11
+isVarType : Nat -> Nat -> Bool
+isVarType x n = n >= 1 && isVarType' x x where
+  isVarType' x Z     = False
+  isVarType' x (S p) = if (isVarBase (S p)) && x == power (S p) n then True else isVarType' x p where
+    isVarBase p = p > 右かっこ && isPrime p
 
 -- 13[to use]
 postulate not : Nat -> Nat

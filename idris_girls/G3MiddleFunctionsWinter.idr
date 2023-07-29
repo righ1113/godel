@@ -77,9 +77,16 @@ isVarType x n = n >= 1 && isVarType' x x where
   isVarType' x Z     = False
   isVarType' x (S p) = if (isVarBase (S p)) && x == power (S p) n then True else isVarType' x p where
     isVarBase p = p > 右かっこ && isPrime p
-
+-- 12
+isVar : Nat -> Bool
+isVar x = isVar' x x where
+  isVar' x Z     = False
+  isVar' x (S n) = isVarType x (S n)
 -- 13[to use]
-postulate not : Nat -> Nat
+postulate not : Nat -> Nat -- not2 を上で使ったら落ちる
+not2 : Nat -> Nat
+not2 x = seq 否定 * paren x
+
 -- 15[to use]
 postulate forall : Nat -> Nat -> Nat
 -- 45[to use]

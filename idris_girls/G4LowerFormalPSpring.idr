@@ -10,6 +10,8 @@ GNat : Type
 GNat = Nat
 
 -- 10.6.1 基本記号のゲーデル数
+否定 : GNat
+否定 = 5
 左かっこ : GNat
 左かっこ = 11
 右かっこ : GNat

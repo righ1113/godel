@@ -10,6 +10,10 @@ GNat : Type
 GNat = Nat
 
 -- 10.6.1 基本記号のゲーデル数
+Ｏ : GNat
+Ｏ = 1
+ｆ : GNat
+ｆ = 3
 否定 : GNat
 否定 = 5
 または : GNat
@@ -24,6 +28,9 @@ GNat = Nat
 namespace l
   ｘ１ : GNat
   ｘ１ = 17
+
+-- Q(x, y) に表現定理を適用すると、形式的体系P に q が存在する事が保証される
+postulate q : GNat -> GNat -> GNat
 
 
 

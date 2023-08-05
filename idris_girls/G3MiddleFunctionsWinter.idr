@@ -93,6 +93,14 @@ or x y = paren x * seq または * paren y
 postulate forall : Nat -> Nat -> Nat
 forall2 : Nat -> Nat -> Nat
 forall2 x a = seq 全ての * seq x * paren a
+-- 16
+succ : Nat -> Nat -> Nat
+succ Z     x = x
+succ (S n) x = seq ｆ * succ n x
+-- 17
+nBar : Nat -> Nat
+nBar n = succ n $ seq Ｏ
+
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool
 

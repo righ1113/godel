@@ -86,9 +86,13 @@ isVar x = isVar' x x where
 postulate not : Nat -> Nat -- not2 を上で使ったら落ちる
 not2 : Nat -> Nat
 not2 x = seq 否定 * paren x
-
+-- 14
+or : Nat -> Nat -> Nat
+or x y = paren x * seq または * paren y
 -- 15[to use]
 postulate forall : Nat -> Nat -> Nat
+forall2 : Nat -> Nat -> Nat
+forall2 x a = seq 全ての * seq x * paren a
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool
 

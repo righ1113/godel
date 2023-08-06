@@ -104,9 +104,9 @@ nBar n = succ n $ seq Ｏ
 isNumberType : Nat -> Bool
 isNumberType x = isNumberType' x x where
   isNumberType' x Z     = False
-  isNumberType' x (S m) = isNumberType'' x (S m) x where
+  isNumberType' x (S m) = isNumberType'' x (S m) x || isNumberType' x m where
     isNumberType'' x m Z     = False
-    isNumberType'' x m (S n) = (m == Ｏ || isVarType m 1) && x == succ n (seq m)
+    isNumberType'' x m (S n) = ((m == Ｏ || isVarType m 1) && x == succ n (seq m)) || isNumberType'' x m n
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

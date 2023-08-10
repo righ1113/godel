@@ -107,6 +107,11 @@ isNumberType x = isNumberType' x x where
   isNumberType' x (S m) = isNumberType'' x (S m) x || isNumberType' x m where
     isNumberType'' x m Z     = False
     isNumberType'' x m (S n) = ((m == Ｏ || isVarType m 1) && x == succ n (seq m)) || isNumberType'' x m n
+-- 19
+isNthType : Nat -> Nat -> Bool
+isNthType x n = n == 1 && isNumberType x || n > 1 && isNthType' x n x where
+  isNthType' x n Z     = False
+  isNthType' x n (S v) = isVarType (S v) n && x == seq (S v) || isNthType' x n v
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

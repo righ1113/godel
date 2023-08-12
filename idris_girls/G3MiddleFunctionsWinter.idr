@@ -112,6 +112,16 @@ isNthType : Nat -> Nat -> Bool
 isNthType x n = n == 1 && isNumberType x || n > 1 && isNthType' x n x where
   isNthType' x n Z     = False
   isNthType' x n (S v) = isVarType (S v) n && x == seq (S v) || isNthType' x n v
+-- 20
+isElementForm : Nat -> Bool
+isElementForm x = isElementForm' x x where
+  isElementForm' x Z     = False
+  isElementForm' x (S n) = isElementForm'' x (S n) x || isElementForm' x n where
+    isElementForm'' x n Z     = False
+    isElementForm'' x n (S b) = isElementForm''' x n (S b) x || isElementForm'' x n b where
+      isElementForm''' x n b Z     = False
+      isElementForm''' x n b (S a) = (isNthType (S a) (n + 1) && isNthType b n && x == (S a) * paren b)
+        || isElementForm''' x n b a
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

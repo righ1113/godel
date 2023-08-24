@@ -122,6 +122,14 @@ isElementForm x = isElementForm' x x where
       isElementForm''' x n b Z     = False
       isElementForm''' x n b (S a) = (isNthType (S a) (n + 1) && isNthType b n && x == (S a) * paren b)
         || isElementForm''' x n b a
+-- 21
+isOp : Nat -> Nat -> Nat -> Bool
+isOp x a b = isNotOp x a || isOrOp x a b || isForallOp x a where
+  isNotOp x a    = x == not a
+  isOrOp x a b   = x == or a b
+  isForallOp x a = isForallOp' x x a where
+    isForallOp' x Z     a = False
+    isForallOp' x (S v) a = isVar (S v) && x == forall (S v) a || isForallOp' x v a
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

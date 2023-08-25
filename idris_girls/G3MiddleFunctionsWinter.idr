@@ -130,6 +130,15 @@ isOp x a b = isNotOp x a || isOrOp x a b || isForallOp x a where
   isForallOp x a = isForallOp' x x a where
     isForallOp' x Z     a = False
     isForallOp' x (S v) a = isVar (S v) && x == forall (S v) a || isForallOp' x v a
+-- 22
+isFormSeq : Nat -> Bool
+isFormSeq x = len x > 0 && isFormSeq' x (len x) where
+  isFormSeq' x Z     = True
+  isFormSeq' x (S n) = isElementForm (elem x n) || isFormSeq'' x (S n) n || isFormSeq' x n where
+    isFormSeq'' x n Z     = False
+    isFormSeq'' x n (S p) = isFormSeq''' x n (S p) (Nat.pred n) || isFormSeq'' x n p where
+      isFormSeq''' x n p Z     = False
+      isFormSeq''' x n p (S q) = isOp (elem x n) (elem x p) (elem x (S q)) || isFormSeq''' x n p q
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

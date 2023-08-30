@@ -50,10 +50,10 @@ len x = len' x Z (x + 1) where
   len' _ _ Z           = 0
   len' x k (S stopper) = if 0 < prime k x && 0 == prime (k + 1) x then k else len' x (S k) stopper
 -- 8
+m8 : Nat -> Nat -> Nat
+m8 x y = power (pri (len x + len y)) (plus x y)
 comb : Nat -> Nat -> Nat
 comb x y = comb' x y Z (m8 x y + 1) where
-  m8 : Nat -> Nat -> Nat
-  m8 x y = power (pri (len x + len y)) (plus x y)
   comb' : Nat -> Nat -> Nat -> Nat -> Nat
   comb' _ _ _ Z           = 0
   comb' x y z (S stopper) =
@@ -139,6 +139,16 @@ isFormSeq x = len x > 0 && isFormSeq' x (len x) where
     isFormSeq'' x n (S p) = isFormSeq''' x n (S p) (Nat.pred n) || isFormSeq'' x n p where
       isFormSeq''' x n p Z     = False
       isFormSeq''' x n p (S q) = isOp (elem x n) (elem x p) (elem x (S q)) || isFormSeq''' x n p q
+
+-- 23
+m23 : Nat -> Nat
+m23 x = power (pri (power (len x) 2)) (x * (power (len x) 2))
+isEndedWith : Nat -> Nat -> Bool
+isEndedWith n x = n * elem n (len n) == x
+isForm : Nat -> Bool
+isForm x = isForm' x (m23 x) where
+  isForm' x Z     = False
+  isForm' x (S n) = isFormSeq (S n) && isEndedWith (S n) x || isForm' x n
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

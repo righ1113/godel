@@ -139,7 +139,6 @@ isFormSeq x = len x > 0 && isFormSeq' x (len x) where
     isFormSeq'' x n (S p) = isFormSeq''' x n (S p) (Nat.pred n) || isFormSeq'' x n p where
       isFormSeq''' x n p Z     = False
       isFormSeq''' x n p (S q) = isOp (elem x n) (elem x p) (elem x (S q)) || isFormSeq''' x n p q
-
 -- 23
 m23 : Nat -> Nat
 m23 x = power (pri (power (len x) 2)) (x * (power (len x) 2))
@@ -149,6 +148,17 @@ isForm : Nat -> Bool
 isForm x = isForm' x (m23 x) where
   isForm' x Z     = False
   isForm' x (S n) = isFormSeq (S n) && isEndedWith (S n) x || isForm' x n
+-- 24
+isBoundAt : Nat -> Nat -> Nat -> Bool
+isBoundAt v n x = isVar v && isForm x && isBoundAt' v n x x where
+  isBoundAt' v n x Z     = False
+  isBoundAt' v n x (S a) = isBoundAt'' v n x (S a) x || isBoundAt' v n x a where
+    isBoundAt'' v n x a Z     = False
+    isBoundAt'' v n x a (S b) = isBoundAt''' v n x a (S b) x || isBoundAt'' v n x a b where
+      isBoundAt''' v n x a b Z = False
+      isBoundAt''' v n x a b (S c) = x == a * forall2 v b * (S c)
+        && isForm b && len a + 1 <= n && n <= len a + len (forall2 v b)
+          || isBoundAt''' v n x a b c
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

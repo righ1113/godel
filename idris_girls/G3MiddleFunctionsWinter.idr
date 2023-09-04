@@ -83,9 +83,9 @@ isVar x = isVar' x x where
   isVar' x Z     = False
   isVar' x (S n) = isVarType x (S n)
 -- 13[to use]
-postulate not : Nat -> Nat -- not2 を上で使ったら落ちる
-not2 : Nat -> Nat
-not2 x = seq 否定 * paren x
+postulate myNot : Nat -> Nat -- myNot2 を上で使ったら落ちる
+myNot2 : Nat -> Nat
+myNot2 x = seq 否定 * paren x
 -- 14
 or : Nat -> Nat -> Nat
 or x y = paren x * seq または * paren y
@@ -125,7 +125,7 @@ isElementForm x = isElementForm' x x where
 -- 21
 isOp : Nat -> Nat -> Nat -> Bool
 isOp x a b = isNotOp x a || isOrOp x a b || isForallOp x a where
-  isNotOp x a    = x == not a
+  isNotOp x a    = x == myNot2 a
   isOrOp x a b   = x == or a b
   isForallOp x a = isForallOp' x x a where
     isForallOp' x Z     a = False
@@ -155,10 +155,13 @@ isBoundAt v n x = isVar v && isForm x && isBoundAt' v n x x where
   isBoundAt' v n x (S a) = isBoundAt'' v n x (S a) x || isBoundAt' v n x a where
     isBoundAt'' v n x a Z     = False
     isBoundAt'' v n x a (S b) = isBoundAt''' v n x a (S b) x || isBoundAt'' v n x a b where
-      isBoundAt''' v n x a b Z = False
+      isBoundAt''' v n x a b Z     = False
       isBoundAt''' v n x a b (S c) = x == a * forall2 v b * (S c)
         && isForm b && len a + 1 <= n && n <= len a + len (forall2 v b)
           || isBoundAt''' v n x a b c
+-- 25
+isFreeAt : Nat -> Nat -> Nat -> Bool
+isFreeAt v n x = isVar v && isForm x && v == elem x n && n <= len x && not (isBoundAt v n x)
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -162,6 +162,21 @@ isBoundAt v n x = isVar v && isForm x && isBoundAt' v n x x where
 -- 25
 isFreeAt : Nat -> Nat -> Nat -> Bool
 isFreeAt v n x = isVar v && isForm x && v == elem x n && n <= len x && not (isBoundAt v n x)
+-- 26
+isFree : Nat -> Nat -> Bool
+isFree v x = isFree' v x (len x) where
+  isFree' v x Z     = False
+  isFree' v x (S n) = isFreeAt v (S n) x || isFree' v x n
+-- 27
+substAtWith : Nat -> Nat -> Nat -> Nat
+substAtWith x n c = substAtWith' x n c (m8 x c) (m8 x c) where
+  substAtWith' x n c Z     stoc = stoc
+  substAtWith' x n c (S z) stoc = substAtWith' x n c z (min (substAtWith'' x n c (S z) stoc x) stoc) where
+    substAtWith'' x n c z stoc Z     = stoc
+    substAtWith'' x n c z stoc (S a) = min (substAtWith''' x n c z stoc (S a) x) (substAtWith'' x n c z stoc a) where
+      substAtWith''' x n c z stoc a Z = stoc
+      substAtWith''' x n c z stoc a (S b) = substAtWith''' x n c z choice a b where
+        choice = if z < stoc && n == len a + 1 && x == a * seq (elem x n) * (S b) && z == a * c * (S b) then z else stoc
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -177,6 +177,17 @@ substAtWith x n c = substAtWith' x n c (m8 x c) (m8 x c) where
       substAtWith''' x n c z stoc a Z = stoc
       substAtWith''' x n c z stoc a (S b) = substAtWith''' x n c z choice a b where
         choice = if z < stoc && n == len a + 1 && x == a * seq (elem x n) * (S b) && z == a * c * (S b) then z else stoc
+-- 28
+freepos : Nat -> Nat -> Nat -> Nat
+--freepos Z v x = freepos' v x (len x) (len x) where
+--  freepos' v x Z     stoc1 = stoc1
+--  freepos' v x (S n) stoc1 = freepos'' v x (S n) stoc1...
+-- 29
+freenum : Nat -> Nat -> Nat
+freenum v x = freenum' v x (len x) (len x) where
+  freenum' v x Z stoc = stoc
+  freenum' v x (S n) stoc = freenum' v x n choice where
+    choice = if freepos (S n) v x == 0 then stoc else stoc + 1
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

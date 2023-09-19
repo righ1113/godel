@@ -179,9 +179,18 @@ substAtWith x n c = substAtWith' x n c (m8 x c) (m8 x c) where
         choice = if z < stoc && n == len a + 1 && x == a * seq (elem x n) * (S b) && z == a * c * (S b) then z else stoc
 -- 28
 freepos : Nat -> Nat -> Nat -> Nat
---freepos Z v x = freepos' v x (len x) (len x) where
---  freepos' v x Z     stoc1 = stoc1
---  freepos' v x (S n) stoc1 = freepos'' v x (S n) stoc1...
+freepos Z v x = freepos' v x (len x) (len x) where
+  freepos' v x Z     stoc = stoc
+  freepos' v x (S n) stoc = freepos' v x n choice where
+    choice = if isFreeAt v n x && freeposB v x n (len x) then n else stoc where
+      freeposB v x n Z     = False
+      freeposB v x n (S p) = n >= (S p) || not (isFreeAt v (S p) x) || freeposB v x n p
+freepos (S k) v x = freepos' v x (freepos k v x) (freepos k v x) where
+  freepos' v x Z     stoc = stoc
+  freepos' v x (S n) stoc = freepos' v x n choice where
+    choice = if isFreeAt v n x && freeposB v x n (freepos k v x) then n else stoc where
+      freeposB v x n Z     = False
+      freeposB v x n (S p) = n >= (S p) || not (isFreeAt v (S p) x) || freeposB v x n p
 -- 29
 freenum : Nat -> Nat -> Nat
 freenum v x = freenum' v x (len x) (len x) where

@@ -197,6 +197,10 @@ freenum v x = freenum' v x (len x) (len x) where
   freenum' v x Z stoc = stoc
   freenum' v x (S n) stoc = freenum' v x n choice where
     choice = if freepos (S n) v x == 0 then stoc else stoc + 1
+-- 30
+substSome : Nat -> Nat -> Nat -> Nat -> Nat
+substSome Z     x v c = x
+substSome (S k) x v c = substAtWith (substSome k x v c) (freepos k v x) c
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

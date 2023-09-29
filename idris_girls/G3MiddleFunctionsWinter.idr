@@ -204,6 +204,15 @@ substSome (S k) x v c = substAtWith (substSome k x v c) (freepos k v x) c
 -- 31
 subst : Nat -> Nat -> Nat -> Nat
 subst a v = substSome (freenum v a) a v
+-- 32
+implies : Nat -> Nat -> Nat
+implies a = or (myNot2 a)
+and : Nat -> Nat -> Nat
+and a b = myNot2 $ or (myNot2 a) (myNot2 b)
+equiv : Nat -> Nat -> Nat
+equiv a b = and (implies a b) (implies b a)
+exists : Nat -> Nat -> Nat
+exists x a = myNot2 (forall2 x (myNot2 a))
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

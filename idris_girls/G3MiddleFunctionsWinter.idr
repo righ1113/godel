@@ -201,6 +201,9 @@ freenum v x = freenum' v x (len x) (len x) where
 substSome : Nat -> Nat -> Nat -> Nat -> Nat
 substSome Z     x v c = x
 substSome (S k) x v c = substAtWith (substSome k x v c) (freepos k v x) c
+-- 31
+subst : Nat -> Nat -> Nat -> Nat
+subst a v = substSome (freenum v a) a v
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -213,6 +213,17 @@ equiv : Nat -> Nat -> Nat
 equiv a b = and (implies a b) (implies b a)
 exists : Nat -> Nat -> Nat
 exists x a = myNot2 (forall2 x (myNot2 a))
+-- 33
+typeLift : Nat -> Nat -> Nat
+typeLift n x = typeLift' n x (power x (power x n)) (power x (power x n)) where
+  typeLift' n x Z acc = acc
+  typeLift' n x (S y) acc = typeLift' n x y choice where
+    choice = if typeLift'' n x y (len x) then (S y) else acc where
+      typeLift'' n x y Z     = True
+      typeLift'' n x y (S k) =
+        ((not (isVar (elem x (S k))) && elem y (S k) == elem x (S k))
+          || ((isVar (elem x (S k))) && elem y (S k) == elem x (S k) * power (prime 1 (elem x (S k))) 2))
+            && typeLift'' n x y k
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

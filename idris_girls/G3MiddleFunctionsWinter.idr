@@ -224,6 +224,10 @@ typeLift n x = typeLift' n x (power x (power x n)) (power x (power x n)) where
         ((not (isVar (elem x (S k))) && elem y (S k) == elem x (S k))
           || ((isVar (elem x (S k))) && elem y (S k) == elem x (S k) * power (prime 1 (elem x (S k))) 2))
             && typeLift'' n x y k
+-- 10.8.5 公理・定理・形式的証明
+-- 34
+isAxiomI : Nat -> Bool
+isAxiomI x = x == α１ || x == α２ || x == α３
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

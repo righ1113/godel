@@ -228,6 +228,11 @@ typeLift n x = typeLift' n x (power x (power x n)) (power x (power x n)) where
 -- 34
 isAxiomI : Nat -> Bool
 isAxiomI x = x == α１ || x == α２ || x == α３
+-- 35
+isSchemaII1 : Nat -> Bool
+isSchemaII1 x = isSchemaII1' x x where
+  isSchemaII1' x Z     =  isForm Z     && x == implies (or Z     Z)     Z
+  isSchemaII1' x (S p) = (isForm (S p) && x == implies (or (S p) (S p)) (S p)) || isSchemaII1' x p
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

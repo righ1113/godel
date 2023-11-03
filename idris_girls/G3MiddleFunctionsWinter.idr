@@ -239,6 +239,12 @@ isSchemaII2 x = isSchemaII2' x x where
   isSchemaII2' x (S p) = isSchemaII2'' x (S p) x || isSchemaII2' x p where
     isSchemaII2'' x p Z     =  isForm p && isForm Z     && x == implies p (or p Z)
     isSchemaII2'' x p (S q) = (isForm p && isForm (S q) && x == implies p (or p (S q)) ) || isSchemaII2'' x p q
+isSchemaII3 : Nat -> Bool
+isSchemaII3 x = isSchemaII3' x x where
+  isSchemaII3' x Z     = False
+  isSchemaII3' x (S p) = isSchemaII3'' x (S p) x || isSchemaII3' x p where
+    isSchemaII3'' x p Z     =  isForm p && isForm Z     && x == implies (or p Z)     (or Z p)
+    isSchemaII3'' x p (S q) = (isForm p && isForm (S q) && x == implies (or p (S q)) (or (S q) p) ) || isSchemaII3'' x p q
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

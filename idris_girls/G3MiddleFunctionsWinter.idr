@@ -254,6 +254,9 @@ isSchemaII4 x = isSchemaII4' x x where
   isSchemaII4' x (S p) = isSchemaII4'' x (S p) x || isSchemaII4' x p where
     isSchemaII4'' x p Z     = False
     isSchemaII4'' x p (S q) = isSchemaII4''' x p (S q) x || isSchemaII4'' x p q
+-- 36
+isSchemaII : Nat -> Bool
+isSchemaII x = isSchemaII1 x || isSchemaII2 x || isSchemaII3 x || isSchemaII4 x
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

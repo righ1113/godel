@@ -257,6 +257,15 @@ isSchemaII4 x = isSchemaII4' x x where
 -- 36
 isSchemaII : Nat -> Bool
 isSchemaII x = isSchemaII1 x || isSchemaII2 x || isSchemaII3 x || isSchemaII4 x
+-- 37
+isNotBoundIn : Nat -> Nat -> Nat -> Bool
+isNotBoundIn z y v = not $ isNotBoundIn' (len y) where
+  isNotBoundIn' Z     = False
+  isNotBoundIn' (S n) = isNotBoundIn'' (S n) (len z) || isNotBoundIn' n where
+    isNotBoundIn'' n Z     = False
+    isNotBoundIn'' n (S m) = isNotBoundIn''' n (S m) z || isNotBoundIn'' n m where
+      isNotBoundIn''' n m Z     = False
+      isNotBoundIn''' n m (S w) = (S w) == elem z m && isBoundAt (S w) n y && isFreeAt v n y || isNotBoundIn''' n m w
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -266,6 +266,18 @@ isNotBoundIn z y v = not $ isNotBoundIn' (len y) where
     isNotBoundIn'' n (S m) = isNotBoundIn''' n (S m) z || isNotBoundIn'' n m where
       isNotBoundIn''' n m Z     = False
       isNotBoundIn''' n m (S w) = (S w) == elem z m && isBoundAt (S w) n y && isFreeAt v n y || isNotBoundIn''' n m w
+-- 38
+isSchemaIII1 : Nat -> Bool
+isSchemaIII1 x = isSchemaIII1' x where
+  isSchemaIII1' Z = False
+  isSchemaIII1' (S v) = isSchemaIII1'' (S v) x || isSchemaIII1' v where
+    isSchemaIII1'' v Z     = False
+    isSchemaIII1'' v (S y) = isSchemaIII1''' v (S y) x || isSchemaIII1'' v y where
+      isSchemaIII1''' v y Z     = False
+      isSchemaIII1''' v y (S z) = isSchemaIII1'''' v y (S z) x || isSchemaIII1''' v y z where
+        isSchemaIII1'''' v y z Z     = isVarType v Z     && isNthType z Z     && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
+        isSchemaIII1'''' v y z (S n) = isVarType v (S n) && isNthType z (S n) && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
+          || isSchemaIII1'''' v y z n
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

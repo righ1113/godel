@@ -278,6 +278,17 @@ isSchemaIII1 x = isSchemaIII1' x where
         isSchemaIII1'''' v y z Z     = isVarType v Z     && isNthType z Z     && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
         isSchemaIII1'''' v y z (S n) = isVarType v (S n) && isNthType z (S n) && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
           || isSchemaIII1'''' v y z n
+-- 39
+isSchemaIII2''' : Nat -> Nat -> Nat -> Nat -> Bool
+isSchemaIII2''' x v q Z     = isVar v && isForm Z     && (not (isFree v Z))     && isForm q && x == implies (forall2 v (or Z     q)) (or Z     (forall2 v q))
+isSchemaIII2''' x v q (S p) = isVar v && isForm (S p) && (not (isFree v (S p))) && isForm q && x == implies (forall2 v (or (S p) q)) (or (S p) (forall2 v q))
+  || isSchemaIII2''' x v q p
+isSchemaIII2 : Nat -> Bool
+isSchemaIII2 x = isSchemaIII2' x where
+  isSchemaIII2' Z = False
+  isSchemaIII2' (S v) = isSchemaIII2'' (S v) x || isSchemaIII2' v where
+    isSchemaIII2'' v Z     = False
+    isSchemaIII2'' v (S q) = isSchemaIII2''' x v (S q) x || isSchemaIII2'' v q
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -269,7 +269,7 @@ isNotBoundIn z y v = not $ isNotBoundIn' (len y) where
 -- 38
 isSchemaIII1 : Nat -> Bool
 isSchemaIII1 x = isSchemaIII1' x where
-  isSchemaIII1' Z = False
+  isSchemaIII1' Z     = False
   isSchemaIII1' (S v) = isSchemaIII1'' (S v) x || isSchemaIII1' v where
     isSchemaIII1'' v Z     = False
     isSchemaIII1'' v (S y) = isSchemaIII1''' v (S y) x || isSchemaIII1'' v y where
@@ -289,6 +289,18 @@ isSchemaIII2 x = isSchemaIII2' x where
   isSchemaIII2' (S v) = isSchemaIII2'' (S v) x || isSchemaIII2' v where
     isSchemaIII2'' v Z     = False
     isSchemaIII2'' v (S q) = isSchemaIII2''' x v (S q) x || isSchemaIII2'' v q
+-- 40
+isAxiomIV : Nat -> Bool
+isAxiomIV x = isAxiomIV' x where
+  isAxiomIV' Z     = False
+  isAxiomIV' (S u) = isAxiomIV'' (S u) x || isAxiomIV' u where
+    isAxiomIV'' u Z     = False
+    isAxiomIV'' u (S v) = isAxiomIV''' u (S v) x || isAxiomIV'' u v where
+      isAxiomIV''' u v Z     = False
+      isAxiomIV''' u v (S y) = isAxiomIV'''' u v (S y) x || isAxiomIV''' u v y where
+        isAxiomIV'''' u v y Z     = isVarType u      1  && isVarType v Z && isFree u y && isForm y && x == exists u (forall2 v (equiv (m8 (seq u) (paren (seq v))) y))
+        isAxiomIV'''' u v y (S n) = isVarType u (n + 1) && isVarType v n && isFree u y && isForm y && x == exists u (forall2 v (equiv (m8 (seq u) (paren (seq v))) y))
+          || isAxiomIV'''' u v y n
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

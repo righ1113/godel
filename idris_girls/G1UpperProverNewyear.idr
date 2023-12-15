@@ -1,6 +1,9 @@
 -- $ chcp 65001
 -- $ idris
 -- > :l G1UpperProverNewyear
+--
+-- Idris の実行には Docker がおすすめ
+--
 module G1UpperProverNewyear
 
 import G4LowerFormalPSpring

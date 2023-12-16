@@ -285,7 +285,7 @@ isSchemaIII2''' x v q (S p) = isVar v && isForm (S p) && (not (isFree v (S p))) 
   || isSchemaIII2''' x v q p
 isSchemaIII2 : Nat -> Bool
 isSchemaIII2 x = isSchemaIII2' x where
-  isSchemaIII2' Z = False
+  isSchemaIII2' Z     = False
   isSchemaIII2' (S v) = isSchemaIII2'' (S v) x || isSchemaIII2' v where
     isSchemaIII2'' v Z     = False
     isSchemaIII2'' v (S q) = isSchemaIII2''' x v (S q) x || isSchemaIII2'' v q
@@ -301,6 +301,11 @@ isAxiomIV x = isAxiomIV' x where
         isAxiomIV'''' u v y Z     = isVarType u      1  && isVarType v Z && isFree u y && isForm y && x == exists u (forall2 v (equiv (m8 (seq u) (paren (seq v))) y))
         isAxiomIV'''' u v y (S n) = isVarType u (n + 1) && isVarType v n && isFree u y && isForm y && x == exists u (forall2 v (equiv (m8 (seq u) (paren (seq v))) y))
           || isAxiomIV'''' u v y n
+-- 41
+isSchemaV : Nat -> Bool
+isSchemaV x = isSchemaV' x where
+  isSchemaV' Z     = False
+  isSchemaV' (S n) = x == typeLift (S n) α４ || isSchemaV' n
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

@@ -26,10 +26,11 @@ GNat = Nat
 右かっこ = 13
 
 -- 10.4.4 公理
--- 公理 I-1~3 に対応するゲーデル数
+-- 公理 I-1~3, V に対応するゲーデル数
 postulate α１ : GNat
 postulate α２ : GNat
 postulate α３ : GNat
+postulate α４ : GNat
 
 namespace l
   ｘ１ : GNat

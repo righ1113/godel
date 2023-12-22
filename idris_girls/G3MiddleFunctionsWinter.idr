@@ -255,8 +255,8 @@ isSchemaII4 x = isSchemaII4' x x where
     isSchemaII4'' x p Z     = False
     isSchemaII4'' x p (S q) = isSchemaII4''' x p (S q) x || isSchemaII4'' x p q
 -- 36
-isSchemaII : Nat -> Bool
-isSchemaII x = isSchemaII1 x || isSchemaII2 x || isSchemaII3 x || isSchemaII4 x
+isAxiomII : Nat -> Bool
+isAxiomII x = isSchemaII1 x || isSchemaII2 x || isSchemaII3 x || isSchemaII4 x
 -- 37
 isNotBoundIn : Nat -> Nat -> Nat -> Bool
 isNotBoundIn z y v = not $ isNotBoundIn' (len y) where
@@ -302,10 +302,14 @@ isAxiomIV x = isAxiomIV' x where
         isAxiomIV'''' u v y (S n) = isVarType u (n + 1) && isVarType v n && isFree u y && isForm y && x == exists u (forall2 v (equiv (m8 (seq u) (paren (seq v))) y))
           || isAxiomIV'''' u v y n
 -- 41
-isSchemaV : Nat -> Bool
-isSchemaV x = isSchemaV' x where
-  isSchemaV' Z     = False
-  isSchemaV' (S n) = x == typeLift (S n) α４ || isSchemaV' n
+isAxiomV : Nat -> Bool
+isAxiomV x = isAxiomV' x where
+  isAxiomV' Z     = False
+  isAxiomV' (S n) = x == typeLift (S n) α４ || isAxiomV' n
+
+-- 42
+isAxiom : Nat -> Bool
+isAxiom x = isAxiomI x || isAxiomII x || isSchemaIII1 x || isSchemaIII2 x || isAxiomIV x || isAxiomV x
 
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool

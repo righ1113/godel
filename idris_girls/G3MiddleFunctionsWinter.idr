@@ -311,6 +311,12 @@ isAxiomV x = isAxiomV' x where
 isAxiom : Nat -> Bool
 isAxiom x = isAxiomI x || isAxiomII x || isSchemaIII1 x || isSchemaIII2 x || isAxiomIV x || isAxiomV x
 
+-- 43
+isConseq : Nat -> Nat -> Nat -> Bool
+isConseq x a b = a == implies b x || isConseq' x where
+  isConseq' Z     = isVar Z     && x == forall2 Z     a
+  isConseq' (S v) = isVar (S v) && x == forall2 (S v) a || isConseq' v
+
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool
 

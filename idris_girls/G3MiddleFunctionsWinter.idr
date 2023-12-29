@@ -306,17 +306,23 @@ isAxiomV : Nat -> Bool
 isAxiomV x = isAxiomV' x where
   isAxiomV' Z     = False
   isAxiomV' (S n) = x == typeLift (S n) α４ || isAxiomV' n
-
 -- 42
 isAxiom : Nat -> Bool
 isAxiom x = isAxiomI x || isAxiomII x || isSchemaIII1 x || isSchemaIII2 x || isAxiomIV x || isAxiomV x
-
 -- 43
 isConseq : Nat -> Nat -> Nat -> Bool
 isConseq x a b = a == implies b x || isConseq' x where
   isConseq' Z     = isVar Z     && x == forall2 Z     a
   isConseq' (S v) = isVar (S v) && x == forall2 (S v) a || isConseq' v
-
+-- 44
+isProof : Nat -> Bool
+isProof x = len x > 0 && isProof' (len x) where
+  isProof' Z     = True
+  isProof' (S n) = (isAxiom (elem x (S n)) || conseqAt n) && isProof' n where
+    conseqAt Z     = False
+    conseqAt (S p) = conseqAt' n || conseqAt p where
+      conseqAt' Z     = False
+      conseqAt' (S q) = isConseq (elem x n) (elem x (S p)) (elem x (S q)) || conseqAt' q
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool
 

@@ -97,9 +97,10 @@ forall2 x a = seq 全ての * seq x * paren a
 succ : Nat -> Nat -> Nat
 succ Z     x = x
 succ (S n) x = seq ｆ * succ n x
--- 17
-nBar : Nat -> Nat
-nBar n = succ n $ seq Ｏ
+-- 17[to use]
+postulate nBar : Nat -> Nat
+nBar2 : Nat -> Nat
+nBar2 n = succ n $ seq Ｏ
 -- 18
 isNumberType : Nat -> Bool
 isNumberType x = isNumberType' x x where
@@ -201,9 +202,10 @@ freenum v x = freenum' v x (len x) (len x) where
 substSome : Nat -> Nat -> Nat -> Nat -> Nat
 substSome Z     x v c = x
 substSome (S k) x v c = substAtWith (substSome k x v c) (freepos k v x) c
--- 31
-subst : Nat -> Nat -> Nat -> Nat
-subst a v = substSome (freenum v a) a v
+-- 31[to use]
+postulate subst : Nat -> Nat -> Nat -> Nat
+subst2 : Nat -> Nat -> Nat -> Nat
+subst2 a v = substSome (freenum v a) a v
 -- 32
 implies : Nat -> Nat -> Nat
 implies a = or (myNot2 a)
@@ -275,8 +277,8 @@ isSchemaIII1 x = isSchemaIII1' x where
     isSchemaIII1'' v (S y) = isSchemaIII1''' v (S y) x || isSchemaIII1'' v y where
       isSchemaIII1''' v y Z     = False
       isSchemaIII1''' v y (S z) = isSchemaIII1'''' v y (S z) x || isSchemaIII1''' v y z where
-        isSchemaIII1'''' v y z Z     = isVarType v Z     && isNthType z Z     && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
-        isSchemaIII1'''' v y z (S n) = isVarType v (S n) && isNthType z (S n) && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst y v z)
+        isSchemaIII1'''' v y z Z     = isVarType v Z     && isNthType z Z     && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst2 y v z)
+        isSchemaIII1'''' v y z (S n) = isVarType v (S n) && isNthType z (S n) && isForm y && isNotBoundIn z y v && x == implies (forall2 v y) (subst2 y v z)
           || isSchemaIII1'''' v y z n
 -- 39
 isSchemaIII2''' : Nat -> Nat -> Nat -> Nat -> Bool
@@ -325,6 +327,8 @@ isProof x = len x > 0 && isProof' (len x) where
       conseqAt' (S q) = isConseq (elem x n) (elem x (S p)) (elem x (S q)) || conseqAt' q
 -- 45[to use]
 postulate proves : Nat -> Nat -> Bool
+proves2 : Nat -> Nat -> Bool
+proves2 p x = isProof p && isEndedWith p x
 
 
 

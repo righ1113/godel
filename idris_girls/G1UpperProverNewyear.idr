@@ -17,6 +17,10 @@ data IsProvable : Bool -> Nat -> Nat -> Type where
   Yes : (p ** True  = proves p x) -> IsProvable True  p x
   No  : (p ** False = proves p x) -> IsProvable False p x
 
+-- Q(x, y) に表現定理を適用すると、形式的体系P に q が存在する事が保証される
+largeQ : GNat -> GNat -> Bool
+largeQ x y = not (proves x (subst y ｙ１ (nBar y)))
+
 postulate r : GNat -> GNat
 
 namespace C

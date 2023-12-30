@@ -35,6 +35,8 @@ postulate α４ : GNat
 namespace l
   ｘ１ : GNat
   ｘ１ = 17
+  ｙ１ : GNat
+  ｙ１ = 19
 
 -- Q(x, y) に表現定理を適用すると、形式的体系P に q が存在する事が保証される
 postulate q : GNat -> GNat -> GNat
